@@ -1,5 +1,5 @@
 import re
-regex = ([+-]?[0-9]*.[0-9] | [0-9]+.)([eE][+-]?[0-9]+)?[LlFf]? | [+-]?[0-9]+[eE][+-]?[0-9]+[LlFf]?
+regex = r'([+-]?[0-9]*.[0-9] | [0-9]+.)([eE][+-]?[0-9]+)?[LlFf]? | [+-]?[0-9]+[eE][+-]?[0-9]+[LlFf]?b'
 def check(string):
      if(re.fullmatch(regex, string)):
         print("Valid Floating point")
