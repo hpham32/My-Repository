@@ -6,6 +6,6 @@ def check(string):
     else:
         print("Invalid Floating point")
 if __name__ == '__main__':
-	string = “anything”
+	string = "anything"
 	check(string)
 
