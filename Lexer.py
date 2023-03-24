@@ -35,8 +35,12 @@ def lexer(filename):
         tokens.append((token_type, token_value))
     return tokens
 
-
+# get input file
 filename = 'input.txt'
 
+# calls lexer to tokenize file
 tokens = lexer(filename)
-print(tokens)
+
+# print tokens
+for x in tokens:
+    print("Tokens"+str(x))
