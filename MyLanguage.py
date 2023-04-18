@@ -108,8 +108,8 @@ file_path = "test.txt"
 tokens = lexer(file_path)
 
 #prints tokens
-#for x in tokens:
-    #print(x)
+for x in tokens:
+    print(x)
 
 typeTokens = [token[0] for token in tokens]
 
