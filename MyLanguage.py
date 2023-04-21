@@ -47,44 +47,39 @@ def parse(tokens):
     # Check if the tokens are valid
     if tokens[0] not in ["IF", "WHILE", "IDENTIFIER"]:
         return False
-    
+
+    codelist = []
+
     def checkID(i):
         if tokens[i+1] == "OPERATOR" and tokens[i+2] == "IDENTIFIER" or "NUMBER" or "BOOL":
-            return True
+            codelist.append(1)
         else:
-            return False
-            
-    def checkBoolStm(i):
-        if tokens[i] == "BOOL" or checkID(i) == True:
-            return True
-        else:
-            return False
-
+            codelist.append(2)
 
     def checkIf(i):
-        if checkBoolStm(i+1) == True:
-            return True
+        if tokens[i+1] == "BOOL" or "IDENTIFIER" or "NUMBER":
+            codelist.append(1)
         else:
-            return False
+            codelist.append(2)
 
     def checkWhile(i):
-        if checkBoolStm(i+1) == True:
-            if tokens[i+2] == "COLON":
-                return True
+        if tokens[i+1] == "BOOL" or "IDENTIFIER" or "NUMBER":
+            codelist.append(1)
         else:
-            return False
+            codelist.append(2)
     
     def checkElse(i):
         if tokens[i+1] == "COLON":
-            return True
+            codelist.append(1)
         else:
-            return False
+            codelist.append(2)
     
     def checkColon(i):
         if tokens[i-1] == "IDENTIFIER" or "BOOL" or "NUMBER" or "ELSE":
-            return True
+            codelist.append(1)
         else:
-            return False
+            codelist.append(2)
+    
 
     for i in range(len(tokens)):
         if tokens[i] == "IDENTIFIER":
@@ -98,9 +93,13 @@ def parse(tokens):
         elif tokens[i] == "COLON":
             checkColon(i)
         elif tokens[i] == "NUMBER" or "BOOL":
-            return True
-        else:
+            codelist.append(1)
+    
+    for x in codelist:
+        if x == 2:
             return False
+        else:
+            return True
 
 
 # driver code to test input
