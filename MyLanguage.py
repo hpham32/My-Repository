@@ -5,7 +5,8 @@ TOKEN_REGEX = [
     ("IF", r"if"),              # if keyword
     ("ELSE", r"else"),          # else keyword
     ("WHILE", r"while"),        # while keyword
-    ("IDENTIFIER", r"(?!(if|else|while|True|False)\b)[a-zA-Z]+"),   # variable names
+    ("PRINT", r"print"),        # print keyword
+    ("IDENTIFIER", r"(?!(if|else|while|True|False|print)\b)[a-zA-Z]+"),   # variable names
     ("BOOL", r"True|False"),    # boolean values
     ("OPERATOR", r"\+|\-|\*|\/|%|==|!=|=|>|<|<=|>="),   # arithmetic and comparison operators
     ("LOGICAL", r"and|or"),     # logical operators
@@ -79,6 +80,12 @@ def parse(tokens):
             codelist.append(1)
         else:
             codelist.append(2)
+
+    def checkPrint(i):
+        if tokens[i+1] == "LPAREN" and any(token in ["IDENTIFIER", "BOOL", "NUMBER", "RPAREN"] for token in tokens[i:]):
+            codelist.append(1)
+        else:
+            codelist.append(2)
     
 
     for i in range(len(tokens)):
@@ -92,14 +99,15 @@ def parse(tokens):
             checkWhile(i)
         elif tokens[i] == "COLON":
             checkColon(i)
+        elif tokens[i] == "PRINT":
+            checkPrint(i)
         elif tokens[i] == "NUMBER" or "BOOL":
             codelist.append(1)
     
     for x in codelist:
         if x == 2:
             return False
-        else:
-            return True
+    return True
 
 
 # driver code to test input
@@ -115,6 +123,10 @@ typeTokens = [token[0] for token in tokens]
 #checks if tokens is in language from parser
 if parse(typeTokens) == True:
     print("Syntax is correct")
+    # Read the contents of the file and execute the code as a string
+    with open(file_path, "r") as f:
+        code = f.read()
+    exec(code)
 else:
     print("Syntax is incorrect")
 
